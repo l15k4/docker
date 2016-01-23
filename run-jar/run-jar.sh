@@ -7,8 +7,13 @@ MVN_VERSION=$4
 
 MVN_GROUP_PATH=$(echo "$MVN_GROUP_ID" | tr . /)
 
-JAR_PATH="/tmp/test.jar"
+LOCAL_JAR_PATH="/tmp/test.jar"
+REMOTE_JAR_PATH="${MVN_REPO}/${MVN_GROUP_PATH}/${MVN_ARTIFACT_ID}/${MVN_VERSION}/${MVN_ARTIFACT_ID}-${MVN_VERSION}.jar"
 
-curl -jLks -o ${JAR_PATH} "${MVN_REPO}/${MVN_GROUP_PATH}/${MVN_ARTIFACT_ID}/${MVN_VERSION}/${MVN_ARTIFACT_ID}-${MVN_VERSION}.jar"
+echo "Downloading ${REMOTE_JAR_PATH} ..."
 
-java -jar ${JAR_PATH} "${@:5}"
+curl -jLks -o ${LOCAL_JAR_PATH} "${REMOTE_JAR_PATH}"
+
+echo "Running jar ..."
+
+java -jar ${LOCAL_JAR_PATH} "${@:5}"
