@@ -11,4 +11,4 @@ RUN mkdir /opt/project
 
 WORKDIR /opt/project
 
-RUN sbt about
+ENTRYPOINT sbt -mem 1536
